@@ -1,2 +1,2 @@
-# sharp-music
+# Sharp Music
 A C# Avalonia YT music player
