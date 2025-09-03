@@ -31,11 +31,11 @@ namespace SharpMusicPlayer
 
         private void load_playlists()
         {
-            string exeDir = AppContext.BaseDirectory;
+            string exe_dir = AppContext.BaseDirectory;
 
             void load_json(string file, string prefix)
             {
-                string path = Path.Combine(exeDir, file);
+                string path = Path.Combine(exe_dir, file);
                 if (File.Exists(path))
                 {
                     var dict = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
@@ -79,6 +79,7 @@ namespace SharpMusicPlayer
                     if (ext is ".mp3" or ".flac" or ".wav" or ".ogg" or ".m4a")
                         tracks.Add((Path.GetFileName(file), file));
                 }
+                tracks.Sort();
             }
             else if (url.Contains("youtube.com") || url.Contains("youtu.be"))
             {
@@ -108,7 +109,7 @@ namespace SharpMusicPlayer
             list_tracks.ItemsSource = items;
         }
 
-        private async void SearchYT(string term)
+        private async void search_yt(string term)
         {
             tracks.Clear();
 
@@ -126,7 +127,7 @@ namespace SharpMusicPlayer
         {
             if (e.Key == Avalonia.Input.Key.Enter && selected_playlist == "SEARCH YT")
             {
-                SearchYT(entry_filter.Text ?? "");
+                search_yt(entry_filter.Text ?? "");
             }
             else
             {
@@ -154,13 +155,13 @@ namespace SharpMusicPlayer
                     if (trackIndex >= 0 && trackIndex < tracks.Count)
                     {
                         var track = tracks[trackIndex];
-                        PlayTrack(track.Url, track.Title);
+                        play_track(track.Url, track.Title);
                     }
                 }
             }
         }
 
-        private void PlayTrack(string url, string title)
+        private void play_track(string url, string title)
         {
             label_track.Text = title;
 
